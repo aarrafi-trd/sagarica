@@ -1,0 +1,10 @@
+{
+  "name": "sagarica",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Sagarica — immersive experience design site",
+  "scripts": {
+    "start": "npx serve . -l 8000",
+    "dev": "python3 -m http.server 8000"
+  }
+}

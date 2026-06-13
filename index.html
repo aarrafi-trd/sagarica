@@ -1,0 +1,665 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Sagarica — Experience Design · Dhaka, Bangladesh</title>
+<meta name="description" content="Sagarica designs, produces, and delivers events that people remember — end to end. The experience design firm behind পেঁচা, Cox's Bazar." />
+
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;0,9..144,600;1,9..144,400;1,9..144,500&family=Inter:wght@300;400;500&family=Noto+Serif+Bengali:wght@400;500;600&display=swap" rel="stylesheet" />
+
+<style>
+/* ─────────────────────────────────────────────
+   SAGARICA — born from the ocean
+   Depth as structure: surface light → abyss → light
+   Fonts: Fraunces (display+UI) · Inter (body) · Noto Serif Bengali (decorative)
+   ───────────────────────────────────────────── */
+*{margin:0;padding:0;box-sizing:border-box}
+:root{
+  --surface:#FBFBF9;
+  --deep:#0A1414;
+  --abyss:#04201E;
+  --cyan:#0BB8B8;
+  --cyan-glow:#5DD4D4;
+  --cyan-soft:#E0F7F7;
+  --ink:#13201F;
+  --muted:#5f6f6d;
+  --muted-light:rgba(255,255,255,0.55);
+  --border:rgba(0,0,0,0.08);
+  --border-light:rgba(255,255,255,0.12);
+  --ease-out:cubic-bezier(0.16,1,0.3,1);
+  --ease-in:cubic-bezier(0.7,0,0.84,0);
+}
+html{-webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility}
+body{
+  font-family:'Inter',sans-serif;
+  background:var(--surface);
+  color:var(--ink);
+  overflow-x:hidden;
+  cursor:none;
+}
+@media (pointer:coarse){body{cursor:auto}}
+
+::selection{background:var(--cyan);color:#fff}
+
+/* ─── CURSOR GLOW ─── */
+.cursor-glow{
+  position:fixed;top:0;left:0;
+  width:340px;height:340px;border-radius:50%;
+  background:radial-gradient(circle,rgba(11,184,184,0.10) 0%,transparent 65%);
+  pointer-events:none;z-index:9998;
+  transform:translate(-50%,-50%);
+  will-change:transform;
+  transition:opacity .4s ease;
+}
+.cursor-dot{
+  position:fixed;top:0;left:0;
+  width:7px;height:7px;border-radius:50%;
+  background:var(--cyan);
+  pointer-events:none;z-index:9999;
+  transform:translate(-50%,-50%);
+  will-change:transform;mix-blend-mode:difference;
+}
+@media (pointer:coarse){.cursor-glow,.cursor-dot{display:none}}
+
+/* ─── NOISE / GRAIN ─── */
+.grain::after{
+  content:'';position:absolute;inset:0;pointer-events:none;z-index:3;opacity:.5;
+  background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
+}
+
+/* ─── NAV (floating glass pill) ─── */
+.nav{
+  position:fixed;top:24px;left:50%;transform:translateX(-50%);
+  z-index:200;width:calc(100% - 48px);max-width:1240px;
+  display:flex;align-items:center;justify-content:space-between;
+  padding:14px 16px 14px 28px;
+  background:rgba(251,251,249,0.7);
+  backdrop-filter:blur(18px) saturate(1.4);
+  -webkit-backdrop-filter:blur(18px) saturate(1.4);
+  border:0.5px solid var(--border);
+  border-radius:100px;
+  transition:background .5s var(--ease-out), color .5s var(--ease-out), border-color .5s;
+}
+.nav.on-dark{
+  background:rgba(10,20,20,0.55);
+  border-color:var(--border-light);
+}
+.nav.on-dark .nav-logo,.nav.on-dark .nav-link{color:#fff}
+.nav.on-dark .nav-link{color:var(--muted-light)}
+.nav-logo{font-family:'Fraunces',serif;font-size:21px;font-weight:500;letter-spacing:-0.01em;color:var(--ink);font-optical-sizing:auto}
+.nav-links{display:flex;gap:30px;align-items:center}
+.nav-link{font-size:13.5px;font-weight:400;color:var(--muted);text-decoration:none;letter-spacing:.01em;cursor:pointer;transition:color .25s}
+.nav-link:hover{color:var(--cyan)}
+.nav-link.bn{font-family:'Noto Serif Bengali',serif}
+.nav-cta{
+  font-family:'Inter',sans-serif;
+  background:var(--cyan);color:#fff;font-size:13px;font-weight:500;
+  padding:11px 22px;border-radius:100px;border:none;cursor:pointer;
+  letter-spacing:.01em;position:relative;overflow:hidden;
+}
+.nav-toggle{display:none}
+
+/* ─── HERO ─── */
+.hero{
+  position:relative;min-height:100svh;
+  display:flex;flex-direction:column;justify-content:center;
+  padding:0 6vw;overflow:hidden;
+  background:var(--deep);
+}
+.hero-video-wrap{position:absolute;inset:0;z-index:0;overflow:hidden}
+.hero-video,.hero-fallback{
+  position:absolute;top:50%;left:50%;
+  min-width:100%;min-height:100%;width:auto;height:auto;
+  transform:translate(-50%,-50%) scale(1.08);
+  object-fit:cover;will-change:transform;
+}
+.hero-fallback{
+  background:
+    radial-gradient(120% 80% at 70% 10%, #0e3c3c 0%, transparent 55%),
+    radial-gradient(100% 90% at 20% 90%, #06302e 0%, transparent 60%),
+    linear-gradient(160deg,#0A1414 0%, #07292a 55%, #041d1c 100%);
+}
+.hero-overlay{
+  position:absolute;inset:0;z-index:1;
+  background:
+    radial-gradient(80% 60% at 50% 45%, transparent 0%, rgba(10,20,20,.35) 100%),
+    linear-gradient(180deg, rgba(10,20,20,.55) 0%, rgba(10,20,20,.25) 45%, rgba(10,20,20,.85) 100%);
+}
+#particles{position:absolute;inset:0;z-index:2;pointer-events:none}
+.hero-inner{position:relative;z-index:4;max-width:62rem;will-change:transform}
+.hero-eyebrow{
+  font-size:11.5px;font-weight:500;letter-spacing:.2em;text-transform:uppercase;
+  color:var(--cyan-glow);margin-bottom:30px;display:flex;align-items:center;gap:12px;
+  opacity:0;
+}
+.hero-eyebrow::before{content:'';width:0;height:1px;background:var(--cyan-glow);transition:width 1s var(--ease-out) .3s}
+.hero-eyebrow.in::before{width:30px}
+.hero-h1{
+  font-family:'Fraunces',serif;font-optical-sizing:auto;
+  font-size:clamp(3rem,7vw,6rem);font-weight:500;line-height:1.04;
+  letter-spacing:-0.025em;color:#fff;margin-bottom:34px;
+}
+.hero-h1 .line{display:block;overflow:hidden}
+.hero-h1 .line>span{display:block;transform:translateY(105%);will-change:transform}
+.hero-h1 em{font-style:italic;color:var(--cyan-glow);font-weight:400}
+.hero-sub{
+  font-size:clamp(15px,1.4vw,18px);font-weight:300;line-height:1.75;
+  color:rgba(255,255,255,0.72);max-width:520px;margin-bottom:46px;
+  opacity:0;transform:translateY(20px);
+}
+.hero-ctas{display:flex;align-items:center;gap:16px;margin-bottom:0;opacity:0;transform:translateY(20px);flex-wrap:wrap}
+.btn-mag{position:relative;will-change:transform}
+.btn-primary{
+  font-family:'Inter',sans-serif;background:#fff;color:var(--deep);
+  font-size:14px;font-weight:500;padding:16px 34px;border-radius:100px;
+  border:none;cursor:pointer;letter-spacing:.01em;
+  transition:background .35s var(--ease-out),color .35s;position:relative;
+  display:inline-block;
+}
+.btn-primary:hover{background:var(--cyan);color:#fff}
+.btn-ghost{
+  font-family:'Inter',sans-serif;background:transparent;color:#fff;
+  font-size:14px;font-weight:400;padding:16px 30px;border-radius:100px;
+  border:0.5px solid rgba(255,255,255,0.25);cursor:pointer;letter-spacing:.01em;
+  transition:border-color .35s,background .35s;
+}
+.btn-ghost:hover{border-color:var(--cyan-glow);background:rgba(11,184,184,0.08)}
+.hero-trust{
+  position:absolute;bottom:46px;left:6vw;right:6vw;z-index:4;
+  display:flex;align-items:flex-end;justify-content:space-between;gap:24px;
+  opacity:0;transform:translateY(20px);
+}
+.hero-trust p{
+  font-size:13px;font-weight:300;color:rgba(255,255,255,0.55);
+  line-height:1.65;max-width:420px;
+}
+.hero-trust .bn{font-family:'Noto Serif Bengali',serif;color:var(--cyan-glow)}
+.scroll-cue{display:flex;flex-direction:column;align-items:center;gap:8px;flex-shrink:0}
+.scroll-cue span{font-size:10px;letter-spacing:.18em;text-transform:uppercase;color:rgba(255,255,255,0.4)}
+.scroll-line{width:1px;height:46px;background:rgba(255,255,255,0.2);position:relative;overflow:hidden}
+.scroll-line::after{content:'';position:absolute;top:0;left:0;width:100%;height:40%;background:var(--cyan-glow);animation:scrollPulse 2.2s var(--ease-out) infinite}
+@keyframes scrollPulse{0%{transform:translateY(-100%)}60%,100%{transform:translateY(250%)}}
+
+/* ─── WAVE SEPARATOR ─── */
+.wave-sep{display:block;width:100%;height:auto;line-height:0;position:relative;z-index:5}
+.wave-sep svg{display:block;width:100%;height:80px}
+
+/* ─── SECTIONS ─── */
+.section{padding:clamp(80px,12vw,180px) 6vw;position:relative}
+.section-label{
+  font-size:11px;font-weight:500;letter-spacing:.18em;text-transform:uppercase;
+  color:var(--muted);margin-bottom:36px;display:flex;align-items:center;gap:12px;
+}
+.section-label::before{content:'';width:18px;height:1px;background:var(--cyan)}
+.reveal{opacity:0;transform:translateY(34px);transition:opacity 1s var(--ease-out),transform 1s var(--ease-out)}
+.reveal.in{opacity:1;transform:none}
+.reveal-delay-1{transition-delay:.08s}
+.reveal-delay-2{transition-delay:.16s}
+.reveal-delay-3{transition-delay:.24s}
+
+.h-section{
+  font-family:'Fraunces',serif;font-optical-sizing:auto;
+  font-size:clamp(2rem,4.4vw,3.6rem);font-weight:500;line-height:1.1;
+  letter-spacing:-0.02em;color:var(--ink);margin-bottom:26px;max-width:18ch;
+}
+.h-section em{font-style:italic;font-weight:400}
+.body-lg{font-size:clamp(15px,1.3vw,17px);font-weight:300;line-height:1.85;color:var(--muted);max-width:54ch}
+.body-lg p+p{margin-top:20px}
+
+/* decorative oversized bengali */
+.bn-deco{
+  font-family:'Noto Serif Bengali',serif;position:absolute;
+  color:rgba(11,184,184,0.05);pointer-events:none;user-select:none;
+  font-size:clamp(10rem,26vw,26rem);line-height:.8;z-index:0;will-change:transform;
+}
+
+/* ─── PROBLEM (first descent — soft tint) ─── */
+.problem{background:linear-gradient(180deg,#fff 0%, #f3f8f7 100%)}
+
+/* ─── GUIDE proof points (gapless grid) ─── */
+.proof-grid{
+  display:grid;grid-template-columns:repeat(3,1fr);grid-auto-flow:dense;
+  gap:0;margin-top:70px;border:0.5px solid var(--border);border-radius:16px;overflow:hidden;
+  position:relative;z-index:2;background:#fff;
+}
+.proof-cell{padding:38px 32px;border-right:0.5px solid var(--border);position:relative}
+.proof-cell:last-child{border-right:none}
+.proof-ico{width:42px;height:42px;border-radius:10px;background:var(--cyan-soft);display:flex;align-items:center;justify-content:center;margin-bottom:22px;color:var(--cyan)}
+.proof-name{font-family:'Fraunces',serif;font-size:18px;font-weight:500;letter-spacing:-0.01em;color:var(--ink);margin-bottom:11px}
+.proof-name.bn{font-family:'Noto Serif Bengali',serif;font-size:24px}
+.proof-desc{font-size:13.5px;font-weight:300;line-height:1.7;color:var(--muted)}
+
+/* ─── HOW IT WORKS ─── */
+.howitworks{background:var(--surface)}
+.steps{margin-top:64px;border-top:0.5px solid var(--border)}
+.step{display:grid;grid-template-columns:90px 1fr;gap:40px;padding:42px 0;border-bottom:0.5px solid var(--border);align-items:start}
+.step-num{font-family:'Fraunces',serif;font-style:italic;font-size:46px;font-weight:400;color:var(--cyan);opacity:.4;line-height:1}
+.step-title{font-family:'Fraunces',serif;font-size:clamp(20px,2.2vw,26px);font-weight:500;letter-spacing:-0.01em;color:var(--ink);margin-bottom:12px}
+.step-body{font-size:15px;font-weight:300;line-height:1.75;color:var(--muted);max-width:60ch}
+.steps-cta{margin-top:58px}
+
+/* ─── SERVICES ─── */
+.services{background:linear-gradient(180deg,#f3f8f7 0%, #eaf4f3 100%);position:relative}
+.svc-sub{font-size:15px;font-weight:300;line-height:1.7;color:var(--muted);margin-top:14px;margin-bottom:64px;max-width:46ch}
+.svc-cards{display:grid;grid-template-columns:1fr 1fr;gap:26px;position:relative;z-index:2}
+.svc-card{
+  background:#fff;border:0.5px solid var(--border);border-radius:20px;padding:clamp(28px,3vw,44px);
+  display:flex;flex-direction:column;transition:transform .6s var(--ease-out),box-shadow .6s var(--ease-out);
+  will-change:transform;
+}
+.svc-card:hover{transform:translateY(-6px);box-shadow:0 24px 60px -28px rgba(11,90,88,0.35)}
+.svc-tag{font-size:10.5px;font-weight:500;letter-spacing:.16em;text-transform:uppercase;color:var(--cyan);margin-bottom:22px}
+.svc-h{font-family:'Fraunces',serif;font-size:clamp(20px,2.3vw,26px);font-weight:500;letter-spacing:-0.01em;color:var(--ink);margin-bottom:16px;line-height:1.22}
+.svc-b{font-size:14px;font-weight:300;line-height:1.75;color:var(--muted);margin-bottom:30px}
+.svc-list{list-style:none;margin-bottom:38px;display:flex;flex-direction:column;gap:9px;flex:1}
+.svc-list li{font-size:13px;font-weight:300;color:var(--muted);display:flex;align-items:flex-start;gap:11px;line-height:1.5}
+.svc-list li::before{content:'';width:5px;height:5px;border-radius:50%;background:var(--cyan);flex-shrink:0;margin-top:7px}
+.svc-btn{
+  font-family:'Inter',sans-serif;display:inline-flex;align-items:center;gap:9px;
+  font-size:13.5px;font-weight:500;color:var(--ink);background:none;
+  border:0.5px solid rgba(0,0,0,0.16);padding:13px 26px;border-radius:100px;cursor:pointer;
+  letter-spacing:.01em;transition:all .35s var(--ease-out);width:fit-content;
+}
+.svc-btn:hover{background:var(--ink);color:#fff;border-color:var(--ink)}
+.svc-btn .ar{color:var(--cyan);font-size:16px;transition:transform .35s var(--ease-out)}
+.svc-btn:hover .ar{transform:translateX(4px);color:var(--cyan-glow)}
+
+/* ─── PACHA — the abyss / mythological deep ─── */
+.pacha{
+  position:relative;background:var(--abyss);overflow:hidden;
+  padding:clamp(120px,18vw,260px) 6vw;
+}
+.pacha-bg{
+  position:absolute;inset:-15% 0;z-index:0;will-change:transform;
+  background:
+    radial-gradient(70% 50% at 75% 20%, rgba(11,184,184,0.12) 0%, transparent 60%),
+    radial-gradient(60% 60% at 15% 85%, rgba(11,184,184,0.07) 0%, transparent 55%),
+    linear-gradient(180deg,#041d1c 0%, #021412 100%);
+}
+.pacha-wordmark{
+  font-family:'Noto Serif Bengali',serif;position:absolute;
+  top:50%;left:50%;transform:translate(-50%,-50%);
+  font-size:clamp(16rem,40vw,44rem);line-height:.7;font-weight:500;
+  color:rgba(11,184,184,0.06);z-index:1;pointer-events:none;
+  white-space:nowrap;will-change:transform;
+}
+.pacha-inner{position:relative;z-index:3;max-width:680px}
+.pacha .section-label{color:rgba(93,212,212,0.5)}
+.pacha .section-label::before{background:rgba(93,212,212,0.4)}
+.pacha-h{font-family:'Fraunces',serif;font-size:clamp(2.2rem,5vw,4.2rem);font-weight:500;line-height:1.08;letter-spacing:-0.02em;color:#fff;margin-bottom:30px}
+.pacha-h em{font-style:italic;color:var(--cyan-glow);font-weight:400}
+.pacha-body{font-size:clamp(15px,1.4vw,18px);font-weight:300;line-height:1.85;color:rgba(255,255,255,0.62);max-width:54ch}
+.pacha-body p+p{margin-top:22px}
+.pacha-body .bn{font-family:'Noto Serif Bengali',serif;color:rgba(93,212,212,0.85)}
+.pacha-detail{font-size:12px;font-weight:500;letter-spacing:.16em;text-transform:uppercase;color:var(--cyan-glow);margin-top:40px;margin-bottom:42px;display:flex;align-items:center;gap:12px}
+.pacha-detail::before{content:'';width:22px;height:1px;background:var(--cyan-glow)}
+.pacha-cta{
+  font-family:'Inter',sans-serif;display:inline-flex;align-items:center;gap:11px;
+  font-size:14px;font-weight:500;color:#fff;background:rgba(255,255,255,0.05);
+  border:0.5px solid rgba(255,255,255,0.18);padding:16px 34px;border-radius:100px;cursor:pointer;
+  letter-spacing:.01em;transition:all .4s var(--ease-out);text-decoration:none;
+}
+.pacha-cta:hover{background:rgba(11,184,184,0.16);border-color:var(--cyan-glow);color:var(--cyan-glow)}
+.pacha-cta .bn{font-family:'Noto Serif Bengali',serif}
+
+/* ─── SOCIAL PROOF ─── */
+.social{background:linear-gradient(180deg,#021412 0%, #eaf4f3 60%, #f3f8f7 100%)}
+.social .section-label{color:var(--muted)}
+.social .h-section{color:var(--ink)}
+.social-ph{
+  margin-top:48px;padding:56px;background:#fff;border-radius:18px;
+  border:0.5px dashed rgba(0,0,0,0.13);text-align:center;color:var(--muted);
+  font-size:14px;font-weight:300;font-style:italic;line-height:1.75;position:relative;z-index:2;
+}
+
+/* ─── FINAL CTA (return to light) ─── */
+.final{
+  padding:clamp(100px,16vw,200px) 6vw;text-align:center;position:relative;overflow:hidden;
+  background:radial-gradient(60% 80% at 50% 40%, var(--cyan-soft) 0%, var(--surface) 70%);
+}
+.final .section-label{justify-content:center}
+.final .section-label::before{display:none}
+.final .h-section{margin:0 auto 22px;max-width:14ch;text-align:center}
+.final .body-lg{margin:0 auto 48px;text-align:center;max-width:50ch}
+.final-cta-wrap{display:inline-block}
+
+/* ─── FOOTER ─── */
+.footer{padding:64px 6vw 38px;border-top:0.5px solid var(--border);background:var(--surface)}
+.footer-grid{display:grid;grid-template-columns:2fr 1fr 1fr;gap:48px;margin-bottom:60px}
+.footer-brand{font-family:'Fraunces',serif;font-size:22px;font-weight:500;color:var(--ink);margin-bottom:12px}
+.footer-brand-sub{font-size:13px;font-weight:300;color:var(--muted);line-height:1.8}
+.footer-col-t{font-size:11px;font-weight:500;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);margin-bottom:20px}
+.footer-links{display:flex;flex-direction:column;gap:11px}
+.footer-link{font-size:13.5px;font-weight:300;color:var(--muted);cursor:pointer;text-decoration:none;transition:color .25s;width:fit-content}
+.footer-link:hover{color:var(--cyan)}
+.footer-link.bn{font-family:'Noto Serif Bengali',serif}
+.footer-link.email{color:var(--cyan)}
+.footer-bottom{display:flex;justify-content:space-between;align-items:center;padding-top:30px;border-top:0.5px solid var(--border);font-size:12px;font-weight:300;color:var(--muted)}
+.footer-bottom .tag{color:var(--cyan);font-size:11px;letter-spacing:.1em}
+
+/* ─── FORM MODAL ─── */
+.backdrop{position:fixed;inset:0;background:rgba(4,20,20,0.6);backdrop-filter:blur(6px);display:flex;align-items:center;justify-content:center;z-index:1000;padding:24px;opacity:0;visibility:hidden;transition:opacity .4s var(--ease-out),visibility .4s}
+.backdrop.open{opacity:1;visibility:visible}
+.modal{background:#fff;border-radius:24px;width:100%;max-width:540px;max-height:90vh;overflow-y:auto;padding:clamp(28px,4vw,46px);position:relative;transform:translateY(24px) scale(.98);transition:transform .5s var(--ease-out)}
+.backdrop.open .modal{transform:none}
+.modal-close{position:absolute;top:22px;right:22px;background:var(--surface);border:none;cursor:pointer;color:var(--muted);width:36px;height:36px;border-radius:50%;display:flex;align-items:center;justify-content:center;transition:background .25s,color .25s;font-size:15px}
+.modal-close:hover{background:var(--cyan-soft);color:var(--cyan)}
+.modal-title{font-family:'Fraunces',serif;font-size:28px;font-weight:500;letter-spacing:-0.01em;color:var(--ink);margin-bottom:10px}
+.modal-sub{font-size:14px;font-weight:300;color:var(--muted);margin-bottom:28px;line-height:1.65}
+.jf-embed{position:relative;min-height:420px;border-radius:14px;overflow:hidden}
+.jf-embed iframe{width:1px;min-width:100%;border:none;display:block;background:transparent}
+.jf-embed.loading::before{
+  content:'';position:absolute;inset:0;border-radius:14px;
+  background:linear-gradient(100deg,var(--surface) 30%,#eef6f5 50%,var(--surface) 70%);
+  background-size:200% 100%;animation:jfShimmer 1.4s var(--ease-out) infinite;z-index:0;
+}
+.jf-embed.loading::after{
+  content:'Loading form\\2026';position:absolute;top:46%;left:0;right:0;text-align:center;
+  font-size:13px;font-weight:300;color:var(--muted);z-index:1;
+}
+@keyframes jfShimmer{0%{background-position:120% 0}100%{background-position:-120% 0}}
+.field{margin-bottom:20px}
+.f-label{display:block;font-size:11.5px;font-weight:500;letter-spacing:.07em;text-transform:uppercase;color:var(--muted);margin-bottom:9px}
+.f-input{width:100%;padding:13px 16px;border:0.5px solid rgba(0,0,0,0.16);border-radius:12px;font-size:14px;font-weight:300;font-family:'Inter',sans-serif;color:var(--ink);background:var(--surface);outline:none;transition:border-color .25s,background .25s}
+.f-input:focus{border-color:var(--cyan);background:#fff;box-shadow:0 0 0 3px rgba(11,184,184,0.1)}
+textarea.f-input{resize:vertical;min-height:104px}
+.radios{display:flex;flex-direction:column;gap:10px}
+.radio{display:flex;align-items:center;gap:11px;padding:13px 16px;border-radius:12px;border:0.5px solid rgba(0,0,0,0.1);cursor:pointer;font-size:13.5px;font-weight:300;color:var(--muted);transition:all .2s var(--ease-out)}
+.radio:hover{border-color:var(--cyan);color:var(--ink)}
+.dot{width:17px;height:17px;border-radius:50%;border:1.5px solid rgba(0,0,0,0.22);flex-shrink:0;transition:all .2s;position:relative}
+.radio.sel{border-color:var(--cyan);background:rgba(11,184,184,0.04);color:var(--ink)}
+.radio.sel .dot{background:var(--cyan);border-color:var(--cyan)}
+.radio.sel .dot::after{content:'';position:absolute;inset:4px;background:#fff;border-radius:50%}
+.radio.multi .dot{border-radius:5px}
+.radio.multi.sel .dot::after{border-radius:2px;inset:3px}
+.f-submit{width:100%;padding:16px;border-radius:100px;background:var(--ink);color:#fff;font-size:14px;font-weight:500;font-family:'Inter',sans-serif;border:none;cursor:pointer;letter-spacing:.01em;transition:background .35s var(--ease-out);margin-top:8px}
+.f-submit:hover{background:var(--cyan)}
+.f-success{text-align:center;padding:36px 0;display:none}
+.f-success.show{display:block}
+.s-ico{width:60px;height:60px;border-radius:50%;background:var(--cyan-soft);display:flex;align-items:center;justify-content:center;margin:0 auto 22px;color:var(--cyan)}
+.s-title{font-family:'Fraunces',serif;font-size:23px;font-weight:500;color:var(--ink);margin-bottom:11px}
+.s-body{font-size:14px;font-weight:300;color:var(--muted);line-height:1.7;max-width:36ch;margin:0 auto}
+.f-err{font-size:12.5px;color:#c0392b;margin-top:12px;text-align:center;display:none}
+.f-err.show{display:block}
+
+/* ─── MOBILE ─── */
+@media (max-width:880px){
+  .nav{padding:12px 14px 12px 22px}
+  .nav-links{gap:18px}
+  .nav-links .nav-link{display:none}
+  .proof-grid{grid-template-columns:1fr}
+  .proof-cell{border-right:none;border-bottom:0.5px solid var(--border)}
+  .proof-cell:last-child{border-bottom:none}
+  .svc-cards{grid-template-columns:1fr}
+  .step{grid-template-columns:60px 1fr;gap:24px}
+  .footer-grid{grid-template-columns:1fr;gap:36px}
+  .hero-trust{flex-direction:column;align-items:flex-start;gap:20px}
+  .scroll-cue{display:none}
+}
+
+/* ─── REDUCED MOTION ─── */
+@media (prefers-reduced-motion:reduce){
+  *{animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important;scroll-behavior:auto!important}
+  .hero-h1 .line>span{transform:none!important}
+  .hero-eyebrow,.hero-sub,.hero-ctas,.hero-trust{opacity:1!important;transform:none!important}
+  .reveal{opacity:1!important;transform:none!important}
+  .hero-video{display:none}
+  .cursor-glow,.cursor-dot{display:none}
+  body{cursor:auto}
+  #particles{display:none}
+  .scroll-line::after{animation:none}
+}
+</style>
+</head>
+<body>
+
+<!-- CURSOR -->
+<div class="cursor-glow" id="cglow"></div>
+<div class="cursor-dot" id="cdot"></div>
+
+<!-- NAV -->
+<nav class="nav on-dark" id="nav">
+  <div class="nav-logo">Sagarica</div>
+  <div class="nav-links">
+    <a class="nav-link" data-scroll="guide">What We Do</a>
+    <a class="nav-link bn" data-scroll="pacha">পেঁচা</a>
+    <a class="nav-link" data-scroll="services">Work With Us</a>
+    <a class="nav-link" data-scroll="final">Contact</a>
+    <button class="nav-cta btn-mag" data-form="A">Get in touch</button>
+  </div>
+</nav>
+
+<!-- HERO -->
+<header class="hero grain" id="hero">
+  <div class="hero-video-wrap">
+    <video class="hero-video" id="heroVideo" autoplay muted loop playsinline preload="none" poster=""></video>
+    <div class="hero-fallback" id="heroFallback"></div>
+  </div>
+  <div class="hero-overlay"></div>
+  <canvas id="particles"></canvas>
+
+  <div class="hero-inner" id="heroParallax">
+    <div class="hero-eyebrow" id="eyebrow">Experience Design · Dhaka, Bangladesh</div>
+    <h1 class="hero-h1">
+      <span class="line"><span>Bangladesh deserves</span></span>
+      <span class="line"><span><em>better experiences.</em></span></span>
+    </h1>
+    <p class="hero-sub" id="heroSub">We design, produce, and deliver events that people remember — end to end. If you're building something worth attending, we should talk.</p>
+    <div class="hero-ctas" id="heroCtas">
+      <span class="btn-mag"><button class="btn-primary" data-form="A">Start an inquiry</button></span>
+      <button class="btn-ghost" data-scroll="guide">See our work</button>
+    </div>
+  </div>
+
+  <div class="hero-trust" id="heroTrust">
+    <p>Sagarica is the firm behind <span class="bn">পেঁচা</span> — a music and experience festival built from the ground up in Cox's Bazar.</p>
+    <div class="scroll-cue"><span>Scroll</span><div class="scroll-line"></div></div>
+  </div>
+</header>
+
+<!-- wave separator -->
+<div class="wave-sep" style="background:var(--deep);margin-top:-1px">
+  <svg viewBox="0 0 1440 80" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg"><path d="M0,40 C240,80 480,0 720,32 C960,64 1200,20 1440,48 L1440,80 L0,80 Z" fill="#ffffff"/></svg>
+</div>
+
+<!-- PROBLEM -->
+<section class="section problem" id="problem">
+  <div class="reveal section-label">Why this exists</div>
+  <h2 class="reveal reveal-delay-1 h-section">Most events here are assembled. <em>Not designed.</em></h2>
+  <div class="reveal reveal-delay-2 body-lg">
+    <p>You're managing five vendors who don't talk to each other. The sound arrives late. The brief gets lost in translation. The audience shows up, looks around, and leaves having felt nothing in particular.</p>
+    <p>That's not a logistics problem. It's an experience problem.</p>
+  </div>
+</section>
+
+<!-- GUIDE -->
+<section class="section grain" id="guide" style="background:#fff">
+  <span class="bn-deco" style="top:-4%;right:-2%">সাগর</span>
+  <div class="reveal section-label">What we do</div>
+  <h2 class="reveal reveal-delay-1 h-section">We architect experiences. <em>Not just events.</em></h2>
+  <p class="reveal reveal-delay-2 body-lg">Sagarica is an experience design firm built for the Bangladeshi market. We understand what audiences here respond to, what artists expect, and what it takes to turn a venue into a world that people want to return to.</p>
+
+  <div class="proof-grid reveal reveal-delay-2">
+    <div class="proof-cell">
+      <div class="proof-ico"><svg width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M2.5 5h15M2.5 10h15M2.5 15h9" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg></div>
+      <div class="proof-name">End-to-end production</div>
+      <div class="proof-desc">Venue, sound, lighting, artists, logistics. One team, one vision.</div>
+    </div>
+    <div class="proof-cell">
+      <div class="proof-ico"><svg width="20" height="20" viewBox="0 0 20 20" fill="none"><circle cx="10" cy="10" r="7.5" stroke="currentColor" stroke-width="1.5"/><path d="M10 5.5v4.5l3 2" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg></div>
+      <div class="proof-name">Bangladesh-first</div>
+      <div class="proof-desc">Built for this audience, this culture, this coast. Not a template from elsewhere.</div>
+    </div>
+    <div class="proof-cell">
+      <div class="proof-ico"><svg width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M10 2l2 5.6h5.8l-4.7 3.4 1.8 5.6L10 13.2 4.9 16.6l1.8-5.6L2 7.6h5.8z" stroke="currentColor" stroke-width="1.4" stroke-linejoin="round"/></svg></div>
+      <div class="proof-name bn">পেঁচা</div>
+      <div class="proof-desc">Our own festival brand. The proof that we practise what we offer.</div>
+    </div>
+  </div>
+</section>
+
+<!-- HOW IT WORKS -->
+<section class="section howitworks" id="how">
+  <div class="reveal section-label">The process</div>
+  <h2 class="reveal reveal-delay-1 h-section">Three steps. One team. <em>No loose ends.</em></h2>
+
+  <div class="steps">
+    <div class="step reveal">
+      <div class="step-num">01</div>
+      <div>
+        <div class="step-title">Tell us what you're building</div>
+        <div class="step-body">Fill the inquiry form. What's the event, who's it for, what does success look like? No commitment at this stage.</div>
+      </div>
+    </div>
+    <div class="step reveal">
+      <div class="step-num">02</div>
+      <div>
+        <div class="step-title">We design the experience</div>
+        <div class="step-body">We come back with a clear plan — venue, production scope, artist direction, timeline. Everything mapped before anything moves.</div>
+      </div>
+    </div>
+    <div class="step reveal">
+      <div class="step-num">03</div>
+      <div>
+        <div class="step-title">You show up. They remember.</div>
+        <div class="step-body">On the day, we handle it. You focus on your guests. The experience does the rest.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="steps-cta reveal"><span class="btn-mag"><button class="btn-primary" style="background:var(--ink);color:#fff" data-form="A">Start an inquiry</button></span></div>
+</section>
+
+<!-- SERVICES -->
+<section class="section services grain" id="services">
+  <span class="bn-deco" style="bottom:-8%;left:-3%;color:rgba(11,184,184,0.04)">দল</span>
+  <div class="reveal section-label">Who we work with</div>
+  <h2 class="reveal reveal-delay-1 h-section">Two ways to work with Sagarica.</h2>
+  <p class="reveal reveal-delay-1 svc-sub">Whether you're building an event or bringing a craft to it — there's a place for you here.</p>
+
+  <div class="svc-cards">
+    <div class="svc-card reveal reveal-delay-1">
+      <div class="svc-tag">Hosting an event</div>
+      <div class="svc-h">You have a vision. We make it possible.</div>
+      <div class="svc-b">Brand activations, cultural gatherings, corporate events, private productions. We take the full experience off your hands — from the first brief to the last light off.</div>
+      <ul class="svc-list">
+        <li>Venue sourcing and management</li>
+        <li>Artist booking and rider handling</li>
+        <li>Sound, lighting, and stage production</li>
+        <li>On-ground operations and crew</li>
+        <li>Post-event documentation</li>
+      </ul>
+      <button class="svc-btn" data-form="B">Inquire about hosting <span class="ar">→</span></button>
+    </div>
+    <div class="svc-card reveal reveal-delay-2">
+      <div class="svc-tag">Joining the network</div>
+      <div class="svc-h">We work with people who take their craft seriously.</div>
+      <div class="svc-b">Sound engineers, lighting specialists, caterers, designers, production houses. If your standard is high and you want to be part of experiences that matter, we want to know you.</div>
+      <ul class="svc-list">
+        <li>Proven track record in live events</li>
+        <li>Equipment and crew at professional grade</li>
+        <li>Willingness to work within a unified creative direction</li>
+        <li>Reliability above everything else</li>
+      </ul>
+      <button class="svc-btn" data-form="C">Apply to partner <span class="ar">→</span></button>
+    </div>
+  </div>
+</section>
+
+<!-- PACHA — the deep -->
+<section class="pacha grain" id="pacha">
+  <div class="pacha-bg" id="pachaBg"></div>
+  <div class="pacha-wordmark" id="pachaWord">পেঁচা</div>
+  <div class="pacha-inner">
+    <div class="reveal section-label">Our flagship</div>
+    <h2 class="reveal reveal-delay-1 pacha-h">This is what we mean by <em>experience design.</em></h2>
+    <div class="reveal reveal-delay-2 pacha-body">
+      <p><span class="bn">পেঁচা</span> is Sagarica's own music and experience festival, held at Pechar Dwip, Cox's Bazar. It isn't a DJ night or a beach party. It's a world you enter — built with mythology, ritual, and obsessive attention to every hour of the night.</p>
+      <p>It exists because we wanted to show what was possible here.</p>
+    </div>
+    <div class="reveal reveal-delay-2 pacha-detail">Vol. 1 — September 2026 · Pechar Dwip, Cox's Bazar</div>
+    <a class="reveal reveal-delay-3 pacha-cta btn-mag" href="#" target="_blank" rel="noopener">Discover <span class="bn">পেঁচা</span> ↗</a>
+  </div>
+</section>
+
+<!-- SOCIAL PROOF -->
+<section class="section social" id="social">
+  <div class="reveal section-label">In their words</div>
+  <h2 class="reveal reveal-delay-1 h-section"><em>Coming soon.</em></h2>
+  <div class="reveal reveal-delay-2 social-ph">Testimonials from our first clients and partners will live here.</div>
+</section>
+
+<!-- FINAL CTA -->
+<section class="final grain" id="final">
+  <div class="reveal section-label">Let's talk</div>
+  <h2 class="reveal reveal-delay-1 h-section">Tell us what you're building.</h2>
+  <p class="reveal reveal-delay-2 body-lg">Whether you're planning an event or looking to bring your craft to one — fill the form and we'll come back to you within 48 hours. Every message is read by a person, not routed to a queue.</p>
+  <div class="reveal reveal-delay-2 final-cta-wrap"><span class="btn-mag"><button class="btn-primary" style="background:var(--ink);color:#fff;font-size:15px;padding:18px 42px" data-form="A">Open inquiry form</button></span></div>
+</section>
+
+<!-- FOOTER -->
+<footer class="footer">
+  <div class="footer-grid">
+    <div>
+      <div class="footer-brand">Sagarica</div>
+      <div class="footer-brand-sub">Experience Design<br>Dhaka, Bangladesh</div>
+    </div>
+    <div>
+      <div class="footer-col-t">Navigate</div>
+      <div class="footer-links">
+        <a class="footer-link" data-scroll="guide">What We Do</a>
+        <a class="footer-link bn" data-scroll="pacha">পেঁচা</a>
+        <a class="footer-link" data-scroll="services">Work With Us</a>
+        <a class="footer-link" data-scroll="final">Contact</a>
+      </div>
+    </div>
+    <div>
+      <div class="footer-col-t">Connect</div>
+      <div class="footer-links">
+        <a class="footer-link email" href="mailto:hello@sagarica.com">hello@sagarica.com</a>
+        <a class="footer-link" href="#" target="_blank" rel="noopener">Instagram</a>
+        <a class="footer-link" href="#" target="_blank" rel="noopener">LinkedIn</a>
+      </div>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <span>© 2026 Sagarica. All rights reserved.</span>
+    <span class="tag">EXPERIENCE DESIGN · DHAKA</span>
+  </div>
+</footer>
+
+<!-- MODAL -->
+<div class="backdrop" id="backdrop">
+  <div class="modal" id="modal">
+    <button class="modal-close" id="modalClose" aria-label="Close">✕</button>
+
+    <div data-form-panel="A">
+      <div class="modal-title">Start an inquiry</div>
+      <div class="modal-sub">Tell us a little about what you're working on — we'll get back to you within 48 hours.</div>
+      <div class="jf-embed" data-embed="A"></div>
+    </div>
+
+    <div data-form-panel="B" style="display:none">
+      <div class="modal-title">Inquire about hosting</div>
+      <div class="modal-sub">Tell us about the event you're planning. The more detail, the better we can respond.</div>
+      <div class="jf-embed" data-embed="B"></div>
+    </div>
+
+    <div data-form-panel="C" style="display:none">
+      <div class="modal-title">Apply to partner</div>
+      <div class="modal-sub">We review every submission and reach out when there's a fit.</div>
+      <div class="jf-embed" data-embed="C"></div>
+    </div>
+  </div>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/lenis/1.0.42/lenis.min.js"></script>
+<script src="config.js"></script>
+<script src="main.js"></script>
+</body>
+</html>
