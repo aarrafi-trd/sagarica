@@ -233,7 +233,7 @@
       iframe.id = "JotFormIFrame-" + formId;
       iframe.title = "Sagarica inquiry form";
       iframe.allow = "fullscreen";
-      iframe.setAttribute("sandbox", "allow-scripts allow-forms allow-same-origin allow-popups");
+      iframe.setAttribute("sandbox", "allow-scripts allow-forms allow-popups allow-top-navigation-by-user-activation allow-modals");
       iframe.src = "https://form.jotform.com/" + formId;
       iframe.setAttribute("scrolling", "no");
       iframe.style.height = "560px";
