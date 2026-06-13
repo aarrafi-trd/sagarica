@@ -226,11 +226,14 @@
         holder.innerHTML = '<div style="padding:32px 0;text-align:center;color:var(--muted);font-size:13px;font-weight:300">Form not configured yet \u2014 add its ID in config.js.</div>';
         loaded[id] = true; return;
       }
+      // Guard: only allow numeric form IDs to reach the iframe src
+      if (!/^\d+$/.test(String(formId))) { loaded[id] = true; return; }
       holder.classList.add("loading");
       var iframe = document.createElement("iframe");
       iframe.id = "JotFormIFrame-" + formId;
       iframe.title = "Sagarica inquiry form";
-      iframe.allow = "geolocation; microphone; camera; fullscreen; payment";
+      iframe.allow = "fullscreen";
+      iframe.setAttribute("sandbox", "allow-scripts allow-forms allow-same-origin allow-popups");
       iframe.src = "https://form.jotform.com/" + formId;
       iframe.setAttribute("scrolling", "no");
       iframe.style.height = "560px";
@@ -263,13 +266,16 @@
 
     // JotForm posts its rendered height via window messages — keep the
     // iframe sized to its content so there is no inner scrollbar.
+    // Origin is validated to block spoofed resize messages from any other source.
     window.addEventListener("message", function (e) {
+      if (e.origin !== "https://form.jotform.com") return;
       if (typeof e.data !== "string") return;
       if (e.data.indexOf("setHeight") !== 0) return;
       var parts = e.data.split(":"); // "setHeight:HEIGHT:FORMID"
       var h = parseInt(parts[1], 10);
       var fid = parts[2];
-      if (!h || !fid) return;
+      if (!h || isNaN(h) || h < 100 || h > 10000) return;
+      if (!fid || !/^\d+$/.test(fid)) return;
       var f = document.getElementById("JotFormIFrame-" + fid);
       if (f) f.style.height = h + "px";
     });

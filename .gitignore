@@ -4,3 +4,4 @@ node_modules/
 *.log
 .env
 .env.local
+# vendor scripts are committed intentionally — do not ignore assets/vendor/
