@@ -305,15 +305,10 @@ body{
 .pacha-cta:hover{background:rgba(11,184,184,0.16);border-color:var(--cyan-glow);color:var(--cyan-glow)}
 .pacha-cta .bn{font-family:'Noto Serif Bengali',serif}
 
-/* ─── SOCIAL PROOF ─── */
-.social{background:linear-gradient(180deg,#021412 0%, #eaf4f3 60%, #f3f8f7 100%)}
-.social .section-label{color:var(--muted)}
-.social .h-section{color:var(--ink)}
-.social-ph{
-  margin-top:48px;padding:56px;background:#fff;border-radius:18px;
-  border:0.5px dashed rgba(0,0,0,0.13);text-align:center;color:var(--muted);
-  font-size:14px;font-weight:300;font-style:italic;line-height:1.75;position:relative;z-index:2;
-}
+/* ─── SOCIAL PROOF ─── (hidden — no testimonials yet) */
+
+/* ─── FINAL CTA transition from dark pacha ─── */
+.final-transition{height:120px;background:linear-gradient(180deg,#021412 0%,var(--surface) 100%)}
 
 /* ─── FINAL CTA (return to light) ─── */
 .final{
@@ -585,12 +580,15 @@ textarea.f-input{resize:vertical;min-height:104px}
   </div>
 </section>
 
-<!-- SOCIAL PROOF -->
-<section class="section social" id="social">
+<!-- SOCIAL PROOF — hidden until testimonials are ready -->
+<!-- <section class="section social" id="social">
   <div class="reveal section-label">In their words</div>
   <h2 class="reveal reveal-delay-1 h-section"><em>Coming soon.</em></h2>
   <div class="reveal reveal-delay-2 social-ph">Testimonials from our first clients and partners will live here.</div>
-</section>
+</section> -->
+
+<!-- dark → light bridge (replaces social proof transition) -->
+<div class="final-transition"></div>
 
 <!-- FINAL CTA -->
 <section class="final grain" id="final">
