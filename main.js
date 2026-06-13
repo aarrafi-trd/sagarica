@@ -242,18 +242,34 @@
       loaded[id] = true;
     }
 
+    var scrollY = 0;
+    function lockScroll() {
+      scrollY = window.scrollY;
+      document.body.style.position = "fixed";
+      document.body.style.top = "-" + scrollY + "px";
+      document.body.style.width = "100%";
+      document.body.style.overflow = "hidden";
+    }
+    function unlockScroll() {
+      document.body.style.position = "";
+      document.body.style.top = "";
+      document.body.style.width = "";
+      document.body.style.overflow = "";
+      window.scrollTo(0, scrollY);
+    }
+
     function open(id) {
       showPanel(id);
       ensureEmbed(id);
       backdrop.classList.add("open");
       if (lenis) lenis.stop();
-      document.body.style.overflow = "hidden";
+      lockScroll();
       lastFocus = document.activeElement;
     }
     function close() {
       backdrop.classList.remove("open");
       if (lenis) lenis.start();
-      document.body.style.overflow = "";
+      unlockScroll();
       if (lastFocus) lastFocus.focus();
     }
 

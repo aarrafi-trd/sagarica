@@ -338,7 +338,11 @@ body{
 /* ─── FORM MODAL ─── */
 .backdrop{position:fixed;inset:0;background:rgba(4,20,20,0.6);backdrop-filter:blur(6px);display:flex;align-items:center;justify-content:center;z-index:1000;padding:24px;opacity:0;visibility:hidden;transition:opacity .4s var(--ease-out),visibility .4s}
 .backdrop.open{opacity:1;visibility:visible}
-.modal{background:#fff;border-radius:24px;width:100%;max-width:540px;max-height:90vh;overflow-y:auto;padding:clamp(28px,4vw,46px);position:relative;transform:translateY(24px) scale(.98);transition:transform .5s var(--ease-out)}
+.modal{background:#fff;border-radius:24px;width:100%;max-width:540px;max-height:90vh;overflow-y:auto;-webkit-overflow-scrolling:touch;overscroll-behavior:contain;padding:clamp(28px,4vw,46px);position:relative;transform:translateY(24px) scale(.98);transition:transform .5s var(--ease-out)}
+@media(max-width:600px){
+  .backdrop{padding:0;align-items:flex-end}
+  .modal{max-height:92svh;border-radius:24px 24px 0 0;padding:28px 20px 40px}
+}
 .backdrop.open .modal{transform:none}
 .modal-close{position:absolute;top:22px;right:22px;background:var(--surface);border:none;cursor:pointer;color:var(--muted);width:36px;height:36px;border-radius:50%;display:flex;align-items:center;justify-content:center;transition:background .25s,color .25s;font-size:15px}
 .modal-close:hover{background:var(--cyan-soft);color:var(--cyan)}
