@@ -206,14 +206,26 @@
   (function forms() {
     var backdrop = document.getElementById("backdrop");
     var modal = document.getElementById("modal");
+    var modalTitle = document.getElementById("modalTitle");
+    var modalSub = document.getElementById("modalSub");
     var lastFocus = null;
     var ids = CFG.jotformIds || {};
-    var loaded = {}; // form id -> true once its iframe is injected
+    var loaded = {};
+
+    var panelMeta = {
+      A: { title: "Start an inquiry",      sub: "Tell us a little about what you're working on — we'll get back to you within 48 hours." },
+      B: { title: "Inquire about hosting", sub: "Tell us about the event you're planning. The more detail, the better we can respond." },
+      C: { title: "Apply to partner",      sub: "We review every submission and reach out when there's a fit." }
+    };
 
     function showPanel(id) {
       document.querySelectorAll("[data-form-panel]").forEach(function (p) {
         p.style.display = p.getAttribute("data-form-panel") === id ? "block" : "none";
       });
+      if (panelMeta[id]) {
+        modalTitle.textContent = panelMeta[id].title;
+        modalSub.textContent = panelMeta[id].sub;
+      }
     }
 
     // Inject the JotForm iframe only the first time a form is opened.
@@ -226,7 +238,6 @@
         holder.innerHTML = '<div style="padding:32px 0;text-align:center;color:var(--muted);font-size:13px;font-weight:300">Form not configured yet \u2014 add its ID in config.js.</div>';
         loaded[id] = true; return;
       }
-      // Guard: only allow numeric form IDs to reach the iframe src
       if (!/^\d+$/.test(String(formId))) { loaded[id] = true; return; }
       holder.classList.add("loading");
       var iframe = document.createElement("iframe");
@@ -235,7 +246,6 @@
       iframe.allow = "fullscreen";
       iframe.setAttribute("sandbox", "allow-scripts allow-forms allow-popups allow-top-navigation-by-user-activation allow-modals");
       iframe.src = "https://form.jotform.com/" + formId;
-      iframe.setAttribute("scrolling", "no");
       iframe.style.height = "560px";
       iframe.addEventListener("load", function () { holder.classList.remove("loading"); });
       holder.appendChild(iframe);

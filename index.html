@@ -339,13 +339,45 @@ body{
 .backdrop{position:fixed;inset:0;background:rgba(4,20,20,0.6);backdrop-filter:blur(6px);display:flex;align-items:center;justify-content:center;z-index:1000;padding:24px;opacity:0;visibility:hidden;transition:opacity .4s var(--ease-out),visibility .4s}
 .backdrop.open{opacity:1;visibility:visible}
 .modal{background:#fff;border-radius:24px;width:100%;max-width:540px;max-height:90vh;overflow-y:auto;-webkit-overflow-scrolling:touch;overscroll-behavior:contain;padding:clamp(28px,4vw,46px);position:relative;transform:translateY(24px) scale(.98);transition:transform .5s var(--ease-out)}
+.backdrop.open .modal{transform:none}
 @media(max-width:600px){
   .backdrop{padding:0;align-items:flex-end}
-  .modal{max-height:92svh;border-radius:24px 24px 0 0;padding:28px 20px 40px}
+  .modal{
+    max-height:96svh;
+    height:96svh;
+    border-radius:20px 20px 0 0;
+    padding:0;
+    overflow:hidden;
+    display:flex;
+    flex-direction:column;
+  }
+  .modal-header{
+    flex-shrink:0;
+    padding:22px 20px 16px;
+    border-bottom:0.5px solid var(--border);
+  }
+  .modal-title{margin-bottom:4px}
+  .modal-sub{margin-bottom:0}
+  .modal-body{
+    flex:1;
+    overflow-y:auto;
+    -webkit-overflow-scrolling:touch;
+    overscroll-behavior:contain;
+  }
+  .jf-embed{
+    min-height:unset;
+    height:100%;
+    border-radius:0;
+  }
+  .jf-embed iframe{
+    height:100% !important;
+    min-height:600px;
+  }
 }
-.backdrop.open .modal{transform:none}
 .modal-close{position:absolute;top:22px;right:22px;background:var(--surface);border:none;cursor:pointer;color:var(--muted);width:36px;height:36px;border-radius:50%;display:flex;align-items:center;justify-content:center;transition:background .25s,color .25s;font-size:15px}
 .modal-close:hover{background:var(--cyan-soft);color:var(--cyan)}
+.modal-header{padding-right:48px}
+.modal-body{padding-top:4px}
 .modal-title{font-family:'Fraunces',serif;font-size:28px;font-weight:500;letter-spacing:-0.01em;color:var(--ink);margin-bottom:10px}
 .modal-sub{font-size:14px;font-weight:300;color:var(--muted);margin-bottom:28px;line-height:1.65}
 .jf-embed{position:relative;min-height:420px;border-radius:14px;overflow:hidden}
@@ -636,25 +668,25 @@ textarea.f-input{resize:vertical;min-height:104px}
 <!-- MODAL -->
 <div class="backdrop" id="backdrop">
   <div class="modal" id="modal">
-    <button class="modal-close" id="modalClose" aria-label="Close">✕</button>
 
-    <div data-form-panel="A">
-      <div class="modal-title">Start an inquiry</div>
-      <div class="modal-sub">Tell us a little about what you're working on — we'll get back to you within 48 hours.</div>
-      <div class="jf-embed" data-embed="A"></div>
+    <div class="modal-header" id="modalHeader">
+      <button class="modal-close" id="modalClose" aria-label="Close">✕</button>
+      <div class="modal-title" id="modalTitle">Start an inquiry</div>
+      <div class="modal-sub" id="modalSub">Tell us a little about what you're working on — we'll get back to you within 48 hours.</div>
     </div>
 
-    <div data-form-panel="B" style="display:none">
-      <div class="modal-title">Inquire about hosting</div>
-      <div class="modal-sub">Tell us about the event you're planning. The more detail, the better we can respond.</div>
-      <div class="jf-embed" data-embed="B"></div>
+    <div class="modal-body" id="modalBody">
+      <div data-form-panel="A">
+        <div class="jf-embed" data-embed="A"></div>
+      </div>
+      <div data-form-panel="B" style="display:none">
+        <div class="jf-embed" data-embed="B"></div>
+      </div>
+      <div data-form-panel="C" style="display:none">
+        <div class="jf-embed" data-embed="C"></div>
+      </div>
     </div>
 
-    <div data-form-panel="C" style="display:none">
-      <div class="modal-title">Apply to partner</div>
-      <div class="modal-sub">We review every submission and reach out when there's a fit.</div>
-      <div class="jf-embed" data-embed="C"></div>
-    </div>
   </div>
 </div>
 
